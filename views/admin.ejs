@@ -1,0 +1,39 @@
+<%- include("templates/header") %> 
+<div class="container my-4">
+    <h1>Welcome, <%= user.name %>!</h1>
+    <h2>Admin Page</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Username</th>
+          <th scope="col">User Type</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.name %></td>
+            <td><%= user.username %></td>
+            <td><%= user.userType %></td>
+            <td>
+              <% if (user.userType === 'user') { %>
+                <form action="/admin/promote" method="post">
+                  <input type="hidden" name="usernameToPromote" value="<%= user.username %>">
+                  <button type="submit" class="btn btn-primary">Promote</button>
+                </form>
+              <% } else { %>
+                <form action="/admin/demote" method="post">
+                  <input type="hidden" name="usernameToDemote" value="<%= user.username %>">
+                  <button type="submit" class="btn btn-danger">Demote</button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <a href="/logout" class="btn btn-secondary">Logout</a>
+  </div>
+<%- include("templates/footer") %> 
