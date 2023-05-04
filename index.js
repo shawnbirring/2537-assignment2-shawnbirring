@@ -121,7 +121,8 @@ app.get("/members", (req, res) => {
     res.redirect("/login");
     return;
   }
-  res.render("members", { user: req.session.user });
+  const alert = req.query.alert;
+  res.render("members", { user: req.session.user, alert });
 });
 
 app.get("/logout", (req, res) => {
@@ -138,7 +139,7 @@ app.get("/admin", async (req, res) => {
   }
   if (req.session.user.userType !== "admin") {
     console.log("User not admin, redirecting to members page");
-    res.redirect("/members");
+    res.redirect("/members?alert=1");
     return;
   }
 

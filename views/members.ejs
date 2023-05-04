@@ -1,4 +1,11 @@
 <%- include("templates/header") %> 
+<% if (alert) { %>
+  <script>
+    window.onload = function() {
+      alert("Access denied. You don't have permission to view the admin page.");
+    };
+  </script>
+<% } %>
 <div class="container">
   <div class="row">
     <div class="col-12">
