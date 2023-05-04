@@ -11,7 +11,7 @@ dotenv.config();
 
 // Constants
 const saltRounds = 12;
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 const expireTime = 60 * 60 * 1000;
 const {
   MONGODB_DATABASE,
@@ -24,7 +24,7 @@ const {
 } = process.env;
 
 // Database connection
-const client = require("../db");
+const client = require("./db");
 const userCollection = client
   .db(MONGODB_DATABASE)
   .collection(MONGODB_COLLECTION);
@@ -33,8 +33,8 @@ const userCollection = client
 const app = express();
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(__dirname + "/../views"));
-app.use(express.static(__dirname + "/../public"));
+app.use(express.static(__dirname + "/views"));
+app.use(express.static(__dirname + "/public"));
 
 // Session store configuration
 const mongoStore = MongoStore.create({
@@ -207,10 +207,10 @@ app.post("/submitSignup", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  console.log("404 error");
   res.render("404");
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
+module.exports = app;
