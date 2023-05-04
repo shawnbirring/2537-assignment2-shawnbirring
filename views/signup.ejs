@@ -41,16 +41,9 @@
             Sign Up
           </button>
           <% if (locals.error) { %>
-            <% if (error === '1') { %>
-              <p class="text-danger">Wrong password. Please try again.</p>
-            <% } else if (error === '2') { %>
-              <p class="text-danger">User not found. Please try again.</p>
+              <p class="text-danger">Invalid format. Please try again</p>
             <% } %>
-          <% } %>
         </form>
-        <% if (locals.message) { %>
-          <p><%= message %></p>
-        <% } %>
       </div>
     </div>
   </div>  

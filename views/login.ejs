@@ -31,12 +31,13 @@
           </button>
         </form>
         <% if (locals.error) { %>
-          <% if (error === '1') { %>
+          <% if (locals.error === '1') { %>
             <p class="text-danger">Wrong password. Please try again.</p>
-          <% } else if (error === '2') { %>
+          <% } else if (locals.error === '2') { %>
             <p class="text-danger">User not found. Please try again.</p>
-          <% } %>
-        <% } %>
+          <% } else if (locals.error === '3') {%>
+            <p class="text-danger">Invalid format.</p>
+        <% }} %>
       </div>
     </div>
   </div>

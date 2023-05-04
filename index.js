@@ -69,7 +69,7 @@ app.use(
 async function handleLogin(username, password, req) {
   const { error } = loginSchema.validate({ username, password });
   if (error) {
-    return { redirectTo: "/login" };
+    return { redirectTo: "/login?error=3" };
   }
   const user = await userCollection.findOne({ username });
 
@@ -101,7 +101,8 @@ app.get("/login", (req, res) => {
     res.redirect("/members");
     return;
   }
-  res.render("login");
+  const error = req.query.error;
+  res.render("login", { error });
 });
 
 app.get("/signup", (req, res) => {
@@ -110,7 +111,8 @@ app.get("/signup", (req, res) => {
     res.redirect("/members");
     return;
   }
-  res.render("signup");
+  const error = req.query.error;
+  res.render("signup", { error });
 });
 
 app.get("/members", (req, res) => {
@@ -142,7 +144,8 @@ app.get("/admin", async (req, res) => {
 
   const users = await userCollection.find({}).toArray();
 
-  res.render("admin", { user: req.session.user, users });
+  const error = req.query.error;
+  res.render("admin", { user: req.session.user, users, error });
 });
 
 app.post("/admin/promote", async (req, res) => {
@@ -153,7 +156,9 @@ app.post("/admin/promote", async (req, res) => {
   );
   if (result.matchedCount === 0) {
     console.log("Error promoting user");
-    res.redirect("/admin?error=1");
+    const error = 1;
+    const users = await userCollection.find({}).toArray();
+    res.render("admin", { user: req.session.user, users, error });
     return;
   } else {
     console.log("User promoted");
@@ -170,7 +175,9 @@ app.post("/admin/demote", async (req, res) => {
   );
   if (result.matchedCount === 0) {
     console.log("Error demoting user");
-    res.redirect("/admin?error=2");
+    const users = await userCollection.find({}).toArray();
+    const error = 2;
+    res.render("admin", { user: req.session.user, users, error });
     return;
   } else {
     console.log("User demoted");
@@ -189,7 +196,7 @@ app.post("/submitSignup", async (req, res) => {
   const error = userSchema.validate(req.body).error;
   console.log(error);
   if (error) {
-    res.redirect("/signup?error=1");
+    res.redirect("/signup?error=3");
     return;
   }
   const { name, username, password } = req.body;
